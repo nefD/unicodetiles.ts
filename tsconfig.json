@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    "module": "amd", // "commonjs",
+    "target": "ES6", // es5",
+    "sourceMap": true,
+    // "outFile": "src/public/bundle.js",
+    "noImplicitAny": true,
+    "moduleResolution": "node"
+  },
+  "files": [
+    "src/app/tile.ts",
+    "src/app/engine.ts",
+    "src/app/viewport.ts",
+    "src/app/input.ts",
+    "src/app/domRenderer.ts",
+    "src/app/canvasRenderer.ts",
+    "src/app/webglRenderer.ts",    
+    "src/app/main.ts",
+    "src/app/index.ts"
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "name": "unicodetiles.ts",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "dev": "tsc -m system --watch",
+    "build": "tsc -m system"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "ts-loader": "^0.8.2",
+    "typescript": "^1.8.10",
+    "webpack": "^1.13.2"
+  }
+}
