@@ -3,12 +3,12 @@ import {Viewport} from './viewport';
 
 export class Engine {
 
-	private width: number;
-	private height: number;
-	private maskFunction: Function;
-	private shaderFunction: Function;
-	private tileFunction: Function;
-	private viewport: Viewport;
+	private width: number = 0;
+	private height: number = 0;
+	private maskFunction: Function = null;
+	private shaderFunction: Function = null;
+	private tileFunction: Function = null;
+	private viewport: Viewport = null;
 
 	private cacheEnabled: boolean = false;
 	private refreshCache: boolean = true;
@@ -22,8 +22,12 @@ export class Engine {
 
 	constructor ( vp: Viewport, func: Function, w: number, h: number ) {
 
-		this.tileCache = new Array( vp.Height );
-		this.tileCache2 = new Array( vp.Height );
+		this.width = w;
+		this.height = h;
+		this.viewport = vp;
+		this.tileCache = new Array( this.viewport.Height );
+		this.tileCache2 = new Array( this.viewport.Height );
+		this.tileFunction = func;
 
 		for ( let j = 0; j < vp.Height; j++ ) {
 
@@ -215,14 +219,25 @@ export class Engine {
 	*   * If there is shader function, apply it to the tile, passing the recorded time
 	*   * Put the tile to viewport
 	*/
-	public update ( x: number, y: number ): void {
+	public update ( x: number = 0, y: number = 0, center: boolean = false ): void {
 
-		x = x || 0;
-		y = y || 0;
+		if ( ! this.viewport ) {
+
+			console.error( 'this.viewport is empty!:', this.viewport);
+			return;
+
+		}
 
 		// World coords of upper left corner of the viewport
-		let xx: number = x - this.viewport.CenterX;
-		let yy: number = y - this.viewport.CenterY;
+		let xx: number = x; // - this.viewport.CenterX;
+		let yy: number = y; // - this.viewport.CenterY;
+
+		if ( center ) {
+
+			xx = xx - this.viewport.CenterX;
+			yy = yy - this.viewport.CenterY;
+
+		}
 
 		let timeNow: number = ( new Date() ).getTime(); // For passing to shaderFunc
 		let transTime: number;
@@ -272,7 +287,7 @@ export class Engine {
 						j, 
 						this.viewport.Width, 
 						this.viewport.Height,
-						this.tileFunction( ixx, jyy ),
+						( this.tileFunction ) ? this.tileFunction( ixx, jyy ) : null,
 						this.tileCache[ j ][ i ],
 						transTime );
 
@@ -286,7 +301,7 @@ export class Engine {
 
 						tile = this.tileCache[ lookupy ][ lookupx ];
 
-						if ( tile === Tile.NullTile() ) {
+						if ( tile === Tile.NullTile() && this.tileFunction ) {
 							
 							tile = this.tileFunction( ixx, jyy );
 
@@ -294,14 +309,22 @@ export class Engine {
 
 					} else { // Cache miss
 
-						tile = this.tileFunction( ixx, jyy );
+						if ( this.tileFunction ) {
+
+							tile = this.tileFunction( ixx, jyy );
+
+						}
 
 					}
 
 				// If all else fails, call tileFunc
 				} else {
 
-					tile = this.tileFunction( ixx, jyy );
+					if ( this.tileFunction ) {
+
+						tile = this.tileFunction( ixx, jyy );
+
+					}
 
 				}
 

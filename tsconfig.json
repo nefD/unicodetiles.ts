@@ -5,7 +5,8 @@
     "sourceMap": true,
     // "outFile": "src/public/bundle.js",
     "noImplicitAny": true,
-    "moduleResolution": "node"
+    "moduleResolution": "node",
+    "suppressImplicitAnyIndexErrors": true
   },
   "files": [
     "src/app/tile.ts",

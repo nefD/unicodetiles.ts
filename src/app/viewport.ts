@@ -17,7 +17,7 @@ export class Viewport {
 	private defaultColor: string;
 	private defaultBackground: string;
 
-	constructor ( elem: HTMLElement, w: number, h: number, renderer: string, squarify: boolean) {
+	constructor ( elem: HTMLElement, w: number, h: number, renderer: string, squarify: boolean = false) {
 
 		this.elem = elem;
 		this.elem.innerHTML = "";
@@ -53,8 +53,11 @@ export class Viewport {
 
 	}
 
+	get Buffer (): Tile[][] { return this.buffer; }
 	get CenterX (): number { return this.centerX; }
 	get CenterY (): number { return this.centerY; }
+	get DefaultBackground (): string { return this.defaultBackground; }
+	get DefaultColor (): string { return this.defaultColor; }
 	get Element (): HTMLElement { return this.elem; }
 	get Height (): number { return this.height; }
 	get Squarify (): boolean { return this.squarify; }
