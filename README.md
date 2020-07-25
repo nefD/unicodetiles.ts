@@ -1,2 +1,2 @@
 # unicodetiles.ts
-A TypeSciprt port of the Unicodetiles.js javascript library.
+A Typescript port of the Unicodetiles.js javascript library.
